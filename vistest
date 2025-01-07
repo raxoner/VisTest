@@ -1,33 +1,12 @@
--- LocalScript di dalam Frame
-
 local frame = script.Parent
-local keyInput1 = Instance.new("TextBox")
-local keyInput2 = Instance.new("TextBox")
-local enterButton = Instance.new("TextButton")
+local keyInput1 = frame:FindFirstChild("TextBox") -- TextBox pertama
+local keyInput2 = frame:FindFirstChild("TextBox_2") -- TextBox kedua
+local enterButton = frame:FindFirstChild("TextButton") -- Tombol Masuk
 local correctKey1 = "KUNCI1" -- Ganti dengan kunci yang diinginkan
 local correctKey2 = "KUNCI2" -- Ganti dengan kunci yang diinginkan
 
--- Mengatur TextBox untuk input kunci pertama
-keyInput1.Size = UDim2.new(0.8, 0, 0.1, 0)
-keyInput1.Position = UDim2.new(0.1, 0, 0.1, 0)
-keyInput1.PlaceholderText = "Masukkan Kunci 1"
-keyInput1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-keyInput1.Parent = frame
-
--- Mengatur TextBox untuk input kunci kedua
-keyInput2.Size = UDim2.new(0.8, 0, 0.1, 0)
-keyInput2.Position = UDim2.new(0.1, 0, 0.25, 0)
-keyInput2.PlaceholderText = "Masukkan Kunci 2"
-keyInput2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-keyInput2.Parent = frame
-
--- Mengatur tombol enter
-enterButton.Size = UDim2.new(0.8, 0, 0.1, 0)
-enterButton.Position = UDim2.new(0.1, 0, 0.4, 0)
-enterButton.Text = "Masuk"
-enterButton.BackgroundColor3 = Color3.fromRGB(0, 102, 204)
-enterButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-enterButton.Parent = frame
+-- Mengatur Frame agar tidak terlihat pada awalnya
+frame.Visible = true
 
 -- Fungsi untuk menangani klik tombol
 local function onButtonClick(buttonName)
@@ -38,10 +17,6 @@ end
 -- Fungsi untuk memeriksa kunci
 local function checkKeys()
     if keyInput1.Text == correctKey1 and keyInput2.Text == correctKey2 then
-        frame.Visible = true
-        keyInput1.Visible = false
-        keyInput2.Visible = false
-        enterButton.Visible = false
         print("Kunci benar! UI dibuka.")
         
         -- Membuat tombol utama
@@ -55,18 +30,4 @@ local function checkKeys()
             button.Parent = frame
 
             -- Event ketika tombol diklik
-            button.MouseButton1Click:Connect(function()
-                onButtonClick(button.Text)
-            end)
-        end
-    else
-        print("Kunci salah! Silakan coba lagi.")
-        keyInput1.Text = "" -- Kosongkan TextBox jika kunci salah
-        keyInput2.Text = "" -- Kosongkan TextBox jika kunci salah
-    end
-end
-
--- Event ketika tombol enter diklik
-enterButton.MouseButton1Click:Connect(checkKeys)
-
--- Meng
+            button.MouseButton1Click
