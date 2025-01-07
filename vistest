@@ -1,111 +1,72 @@
--- Lokasi UI
-local player = game.Players.LocalPlayer
-local playerGui = player.PlayerGui
-local screenGui = Instance.new("ScreenGui", playerGui)
-screenGui.Name = "OceanUI"
+-- LocalScript di dalam Frame
 
--- Frame UI dengan tema Ocean
-local uiFrame = Instance.new("Frame")
-uiFrame.Parent = screenGui
-uiFrame.Size = UDim2.new(0.5, 0, 0.5, 0)
-uiFrame.Position = UDim2.new(0.25, 0, 0.25, 0)
-uiFrame.BackgroundColor3 = Color3.fromRGB(28, 175, 255) -- Ocean Blue
-uiFrame.BackgroundTransparency = 0.3
-uiFrame.Visible = false -- Awalnya tersembunyi
+local frame = script.Parent
+local keyInput1 = Instance.new("TextBox")
+local keyInput2 = Instance.new("TextBox")
+local enterButton = Instance.new("TextButton")
+local correctKey1 = "KUNCI1" -- Ganti dengan kunci yang diinginkan
+local correctKey2 = "KUNCI2" -- Ganti dengan kunci yang diinginkan
 
--- Judul UI
-local titleLabel = Instance.new("TextLabel")
-titleLabel.Parent = uiFrame
-titleLabel.Size = UDim2.new(1, 0, 0.2, 0)
-titleLabel.Position = UDim2.new(0, 0, 0, 0)
-titleLabel.Text = "Ocean UI"
-titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-titleLabel.TextScaled = true
-titleLabel.BackgroundTransparency = 1
+-- Mengatur TextBox untuk input kunci pertama
+keyInput1.Size = UDim2.new(0.8, 0, 0.1, 0)
+keyInput1.Position = UDim2.new(0.1, 0, 0.1, 0)
+keyInput1.PlaceholderText = "Masukkan Kunci 1"
+keyInput1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+keyInput1.Parent = frame
 
--- Tombol keluar untuk menutup UI
-local closeButton = Instance.new("TextButton")
-closeButton.Parent = uiFrame
-closeButton.Size = UDim2.new(0.2, 0, 0.1, 0)
-closeButton.Position = UDim2.new(0.8, 0, 0, 0)
-closeButton.Text = "Close"
-closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-closeButton.TextScaled = true
-closeButton.MouseButton1Click:Connect(function()
-	uiFrame.Visible = false -- Menutup UI
-end)
+-- Mengatur TextBox untuk input kunci kedua
+keyInput2.Size = UDim2.new(0.8, 0, 0.1, 0)
+keyInput2.Position = UDim2.new(0.1, 0, 0.25, 0)
+keyInput2.PlaceholderText = "Masukkan Kunci 2"
+keyInput2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+keyInput2.Parent = frame
 
--- Tombol Tambahan (Misalnya, Tombol untuk menunjukkan pesan)
-local additionalButton = Instance.new("TextButton")
-additionalButton.Parent = uiFrame
-additionalButton.Size = UDim2.new(0.4, 0, 0.1, 0)
-additionalButton.Position = UDim2.new(0.3, 0, 0.4, 0)
-additionalButton.Text = "Click me!"
-additionalButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-additionalButton.BackgroundColor3 = Color3.fromRGB(0, 255, 128)
-additionalButton.TextScaled = true
-additionalButton.MouseButton1Click:Connect(function()
-	print("Button clicked! Here's a cool message.")
-	local messageLabel = Instance.new("TextLabel")
-	messageLabel.Parent = uiFrame
-	messageLabel.Size = UDim2.new(0.8, 0, 0.1, 0)
-	messageLabel.Position = UDim2.new(0.1, 0, 0.6, 0)
-	messageLabel.Text = "Thanks for clicking the button!"
-	messageLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-	messageLabel.TextScaled = true
-	messageLabel.BackgroundTransparency = 1
-end)
+-- Mengatur tombol enter
+enterButton.Size = UDim2.new(0.8, 0, 0.1, 0)
+enterButton.Position = UDim2.new(0.1, 0, 0.4, 0)
+enterButton.Text = "Masuk"
+enterButton.BackgroundColor3 = Color3.fromRGB(0, 102, 204)
+enterButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+enterButton.Parent = frame
 
--- Membuat TextButton untuk membuka UI dengan kunci
-local unlockButton = Instance.new("TextButton")
-unlockButton.Parent = playerGui
-unlockButton.Size = UDim2.new(0.2, 0, 0.1, 0)
-unlockButton.Position = UDim2.new(0.4, 0, 0.4, 0)
-unlockButton.Text = "Unlock Ocean UI"
-unlockButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-unlockButton.BackgroundColor3 = Color3.fromRGB(0, 128, 255)
-unlockButton.TextScaled = true
+-- Fungsi untuk menangani klik tombol
+local function onButtonClick(buttonName)
+    print(buttonName .. " diklik!")
+    -- Tambahkan logika yang diinginkan di sini
+end
 
--- Kunci untuk membuka UI
-local secretCode = "1234" -- Ganti dengan kode yang diinginkan
-local userInput = ""
+-- Fungsi untuk memeriksa kunci
+local function checkKeys()
+    if keyInput1.Text == correctKey1 and keyInput2.Text == correctKey2 then
+        frame.Visible = true
+        keyInput1.Visible = false
+        keyInput2.Visible = false
+        enterButton.Visible = false
+        print("Kunci benar! UI dibuka.")
+        
+        -- Membuat tombol utama
+        for i = 1, 6 do
+            local button = Instance.new("TextButton")
+            button.Size = UDim2.new(0.8, 0, 0.1, 0) -- Ukuran tombol
+            button.Position = UDim2.new(0.1, 0, (i - 1) * 0.15 + 0.5, 0) -- Posisi tombol
+            button.Text = "Tombol " .. i
+            button.BackgroundColor3 = Color3.fromRGB(0, 102, 204) -- Warna tombol
+            button.TextColor3 = Color3.fromRGB(255, 255, 255) -- Warna teks
+            button.Parent = frame
 
-local codeInputBox = Instance.new("TextBox")
-codeInputBox.Parent = playerGui
-codeInputBox.Size = UDim2.new(0.3, 0, 0.1, 0)
-codeInputBox.Position = UDim2.new(0.35, 0, 0.5, 0)
-codeInputBox.PlaceholderText = "Enter code"
-codeInputBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-codeInputBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-codeInputBox.TextScaled = true
+            -- Event ketika tombol diklik
+            button.MouseButton1Click:Connect(function()
+                onButtonClick(button.Text)
+            end)
+        end
+    else
+        print("Kunci salah! Silakan coba lagi.")
+        keyInput1.Text = "" -- Kosongkan TextBox jika kunci salah
+        keyInput2.Text = "" -- Kosongkan TextBox jika kunci salah
+    end
+end
 
--- Tombol untuk memverifikasi kode
-local verifyButton = Instance.new("TextButton")
-verifyButton.Parent = playerGui
-verifyButton.Size = UDim2.new(0.2, 0, 0.1, 0)
-verifyButton.Position = UDim2.new(0.4, 0, 0.6, 0)
-verifyButton.Text = "Verify Code"
-verifyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-verifyButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-verifyButton.TextScaled = true
+-- Event ketika tombol enter diklik
+enterButton.MouseButton1Click:Connect(checkKeys)
 
--- Fungsi untuk membuka UI setelah memasukkan kode yang benar
-verifyButton.MouseButton1Click:Connect(function()
-	if codeInputBox.Text == secretCode then
-		uiFrame.Visible = true -- Menampilkan UI
-		codeInputBox.Visible = false
-		verifyButton.Visible = false
-		unlockButton.Visible = false
-		print("UI unlocked!")
-	else
-		print("Wrong code!")
-		codeInputBox.Text = ""
-	end
-end)
-
--- Menyembunyikan tombol unlock jika kode dimasukkan
-unlockButton.MouseButton1Click:Connect(function()
-	codeInputBox.Visible = true
-	verifyButton.Visible = true
-end)
+-- Meng
