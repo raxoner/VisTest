@@ -2,27 +2,81 @@
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
--- Membuat frame untuk UI
-local frame = Instance.new("Frame")
-frame.Parent = screenGui
-frame.Size = UDim2.new(0, 300, 0, 200)
-frame.Position = UDim2.new(0.5, -150, 0.5, -100)
-frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-frame.BorderSizePixel = 0
+-- Membuat Frame utama UI
+local mainFrame = Instance.new("Frame")
+mainFrame.Parent = screenGui
+mainFrame.Size = UDim2.new(0, 400, 0, 300)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+mainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+mainFrame.BorderSizePixel = 0
+mainFrame.Visible = false  -- Defaultnya UI disembunyikan
 
--- Membuat tombol di dalam frame
-local button = Instance.new("TextButton")
-button.Parent = frame
-button.Size = UDim2.new(0, 200, 0, 50)
-button.Position = UDim2.new(0.5, -100, 0.5, -25)
-button.Text = "Klik Saya!"
-button.TextColor3 = Color3.fromRGB(255, 255, 255)
-button.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
+-- Membuat tombol untuk toggle UI
+local toggleButton = Instance.new("TextButton")
+toggleButton.Parent = screenGui
+toggleButton.Size = UDim2.new(0, 200, 0, 50)
+toggleButton.Position = UDim2.new(0.5, -100, 0.9, -50)
+toggleButton.Text = "Buka UI"
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
 
--- Menambahkan fungsi saat tombol diklik
-button.MouseButton1Click:Connect(function()
-    print("Tombol diklik!")
-    -- Anda bisa menambahkan lebih banyak aksi di sini, misalnya mengubah warna tombol
-    button.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-    button.Text = "Terima Kasih!"
+-- Fungsi toggle untuk membuka dan menutup UI
+toggleButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = not mainFrame.Visible
+    toggleButton.Text = mainFrame.Visible and "Tutup UI" or "Buka UI"
+end)
+
+-- Membuat Label untuk waktu berjalan
+local timeLabel = Instance.new("TextLabel")
+timeLabel.Parent = mainFrame
+timeLabel.Size = UDim2.new(0, 380, 0, 40)
+timeLabel.Position = UDim2.new(0, 10, 0, 10)
+timeLabel.Text = "Waktu: 0 detik"
+timeLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+timeLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+timeLabel.TextSize = 18
+
+-- Mengupdate waktu secara real-time
+local startTime = tick()
+game:GetService("RunService").Heartbeat:Connect(function()
+    local elapsedTime = math.floor(tick() - startTime)
+    timeLabel.Text = "Waktu: " .. elapsedTime .. " detik"
+end)
+
+-- Membuat slider untuk mengubah ukuran font Label
+local slider = Instance.new("Frame")
+slider.Parent = mainFrame
+slider.Size = UDim2.new(0, 300, 0, 30)
+slider.Position = UDim2.new(0, 50, 0, 60)
+slider.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+
+local sliderButton = Instance.new("TextButton")
+sliderButton.Parent = slider
+sliderButton.Size = UDim2.new(0, 30, 0, 30)
+sliderButton.Position = UDim2.new(0, 0, 0, 0)
+sliderButton.Text = ""
+sliderButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+
+-- Event untuk mengubah ukuran font berdasarkan posisi slider
+sliderButton.MouseDragEnter:Connect(function()
+    local mousePos = game.Players.LocalPlayer:GetMouse().X
+    local newPos = math.clamp(mousePos - slider.AbsolutePosition.X, 0, slider.Size.X.Offset)
+    sliderButton.Position = UDim2.new(0, newPos, 0, 0)
+
+    local fontSize = math.floor(10 + (newPos / slider.Size.X.Offset) * 30)
+    timeLabel.TextSize = fontSize
+end)
+
+-- Membuat tombol untuk mengganti warna latar belakang
+local colorButton = Instance.new("TextButton")
+colorButton.Parent = mainFrame
+colorButton.Size = UDim2.new(0, 200, 0, 40)
+colorButton.Position = UDim2.new(0.5, -100, 0, 120)
+colorButton.Text = "Ganti Warna Latar"
+colorButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+colorButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+
+colorButton.MouseButton1Click:Connect(function()
+    local randomColor = Color3.fromRGB(math.random(0, 255), math.random(0, 255), math.random(0, 255))
+    mainFrame.BackgroundColor3 = randomColor
 end)
