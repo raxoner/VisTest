@@ -1,49 +1,28 @@
-local ArrayField = loadstring(game:HttpGet('https://raw.githubusercontent.com/UI-Interface/ArrayField/main/Source.lua'))()
+-- Membuat ScreenGui di dalam StarterGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
-local Window = ArrayField:CreateWindow({
-   Name = "Super Capy",
-   LoadingTitle = "Super Capy",
-   LoadingSubtitle = "by supercapy",
-   ConfigurationSaving = {
-      Enabled = true,
-      FolderName = nil, -- Create a custom folder for your hub/game
-      FileName = "SuperCapy"
-   },
-   Discord = {
-      Enabled = false,
-      Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD
-      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
-   },
-   KeySystem = false, -- Set this to true to use our key system
-   KeySettings = {
-      Title = "System",
-      Subtitle = "Key System",
-      Note = "No method of obtaining the key is provided",
-      FileName = "Key", -- It is recommended to use something unique as other scripts using ArrayField may overwrite your key file
-      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
-      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like ArrayField to get the key from
-      Actions = {
-            [1] = {
-                Text = 'Click here to copy the key link <--',
-                OnPress = function()
-                    print('Pressed')
-                end,
-                }
-            },
-      Key = {"WargaRaxon456"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
-   }
-})
+-- Membuat frame untuk UI
+local frame = Instance.new("Frame")
+frame.Parent = screenGui
+frame.Size = UDim2.new(0, 300, 0, 200)
+frame.Position = UDim2.new(0.5, -150, 0.5, -100)
+frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+frame.BorderSizePixel = 0
 
-local SupTab = Window:CreateTab("Main Capy", 4483362458) -- Title, Image
+-- Membuat tombol di dalam frame
+local button = Instance.new("TextButton")
+button.Parent = frame
+button.Size = UDim2.new(0, 200, 0, 50)
+button.Position = UDim2.new(0.5, -100, 0.5, -25)
+button.Text = "Klik Saya!"
+button.TextColor3 = Color3.fromRGB(255, 255, 255)
+button.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
 
-local Section = SupTab:CreateSection("Section Example",false) -- The 2nd argument is to tell if its only a Title and doesnt contain element
-
-local Button = SupTab:CreateButton({
-   Name = "Button",
-   Interact = 'Click',
-   Callback = function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/BloxFruits/refs/heads/main/Source.lua"))()()
-   -- The function that takes place when the button is pressed
-   end,
-})
-
+-- Menambahkan fungsi saat tombol diklik
+button.MouseButton1Click:Connect(function()
+    print("Tombol diklik!")
+    -- Anda bisa menambahkan lebih banyak aksi di sini, misalnya mengubah warna tombol
+    button.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    button.Text = "Terima Kasih!"
+end)
