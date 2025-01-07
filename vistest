@@ -1,82 +1,111 @@
--- Membuat ScreenGui di dalam StarterGui
-local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+-- Lokasi UI
+local player = game.Players.LocalPlayer
+local playerGui = player.PlayerGui
+local screenGui = Instance.new("ScreenGui", playerGui)
+screenGui.Name = "OceanUI"
 
--- Membuat Frame utama UI
-local mainFrame = Instance.new("Frame")
-mainFrame.Parent = screenGui
-mainFrame.Size = UDim2.new(0, 400, 0, 300)
-mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
-mainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-mainFrame.BorderSizePixel = 0
-mainFrame.Visible = false  -- Defaultnya UI disembunyikan
+-- Frame UI dengan tema Ocean
+local uiFrame = Instance.new("Frame")
+uiFrame.Parent = screenGui
+uiFrame.Size = UDim2.new(0.5, 0, 0.5, 0)
+uiFrame.Position = UDim2.new(0.25, 0, 0.25, 0)
+uiFrame.BackgroundColor3 = Color3.fromRGB(28, 175, 255) -- Ocean Blue
+uiFrame.BackgroundTransparency = 0.3
+uiFrame.Visible = false -- Awalnya tersembunyi
 
--- Membuat tombol untuk toggle UI
-local toggleButton = Instance.new("TextButton")
-toggleButton.Parent = screenGui
-toggleButton.Size = UDim2.new(0, 200, 0, 50)
-toggleButton.Position = UDim2.new(0.5, -100, 0.9, -50)
-toggleButton.Text = "Buka UI"
-toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-toggleButton.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
+-- Judul UI
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Parent = uiFrame
+titleLabel.Size = UDim2.new(1, 0, 0.2, 0)
+titleLabel.Position = UDim2.new(0, 0, 0, 0)
+titleLabel.Text = "Ocean UI"
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.TextScaled = true
+titleLabel.BackgroundTransparency = 1
 
--- Fungsi toggle untuk membuka dan menutup UI
-toggleButton.MouseButton1Click:Connect(function()
-    mainFrame.Visible = not mainFrame.Visible
-    toggleButton.Text = mainFrame.Visible and "Tutup UI" or "Buka UI"
+-- Tombol keluar untuk menutup UI
+local closeButton = Instance.new("TextButton")
+closeButton.Parent = uiFrame
+closeButton.Size = UDim2.new(0.2, 0, 0.1, 0)
+closeButton.Position = UDim2.new(0.8, 0, 0, 0)
+closeButton.Text = "Close"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+closeButton.TextScaled = true
+closeButton.MouseButton1Click:Connect(function()
+	uiFrame.Visible = false -- Menutup UI
 end)
 
--- Membuat Label untuk waktu berjalan
-local timeLabel = Instance.new("TextLabel")
-timeLabel.Parent = mainFrame
-timeLabel.Size = UDim2.new(0, 380, 0, 40)
-timeLabel.Position = UDim2.new(0, 10, 0, 10)
-timeLabel.Text = "Waktu: 0 detik"
-timeLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-timeLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-timeLabel.TextSize = 18
-
--- Mengupdate waktu secara real-time
-local startTime = tick()
-game:GetService("RunService").Heartbeat:Connect(function()
-    local elapsedTime = math.floor(tick() - startTime)
-    timeLabel.Text = "Waktu: " .. elapsedTime .. " detik"
+-- Tombol Tambahan (Misalnya, Tombol untuk menunjukkan pesan)
+local additionalButton = Instance.new("TextButton")
+additionalButton.Parent = uiFrame
+additionalButton.Size = UDim2.new(0.4, 0, 0.1, 0)
+additionalButton.Position = UDim2.new(0.3, 0, 0.4, 0)
+additionalButton.Text = "Click me!"
+additionalButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+additionalButton.BackgroundColor3 = Color3.fromRGB(0, 255, 128)
+additionalButton.TextScaled = true
+additionalButton.MouseButton1Click:Connect(function()
+	print("Button clicked! Here's a cool message.")
+	local messageLabel = Instance.new("TextLabel")
+	messageLabel.Parent = uiFrame
+	messageLabel.Size = UDim2.new(0.8, 0, 0.1, 0)
+	messageLabel.Position = UDim2.new(0.1, 0, 0.6, 0)
+	messageLabel.Text = "Thanks for clicking the button!"
+	messageLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+	messageLabel.TextScaled = true
+	messageLabel.BackgroundTransparency = 1
 end)
 
--- Membuat slider untuk mengubah ukuran font Label
-local slider = Instance.new("Frame")
-slider.Parent = mainFrame
-slider.Size = UDim2.new(0, 300, 0, 30)
-slider.Position = UDim2.new(0, 50, 0, 60)
-slider.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+-- Membuat TextButton untuk membuka UI dengan kunci
+local unlockButton = Instance.new("TextButton")
+unlockButton.Parent = playerGui
+unlockButton.Size = UDim2.new(0.2, 0, 0.1, 0)
+unlockButton.Position = UDim2.new(0.4, 0, 0.4, 0)
+unlockButton.Text = "Unlock Ocean UI"
+unlockButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+unlockButton.BackgroundColor3 = Color3.fromRGB(0, 128, 255)
+unlockButton.TextScaled = true
 
-local sliderButton = Instance.new("TextButton")
-sliderButton.Parent = slider
-sliderButton.Size = UDim2.new(0, 30, 0, 30)
-sliderButton.Position = UDim2.new(0, 0, 0, 0)
-sliderButton.Text = ""
-sliderButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+-- Kunci untuk membuka UI
+local secretCode = "1234" -- Ganti dengan kode yang diinginkan
+local userInput = ""
 
--- Event untuk mengubah ukuran font berdasarkan posisi slider
-sliderButton.MouseDragEnter:Connect(function()
-    local mousePos = game.Players.LocalPlayer:GetMouse().X
-    local newPos = math.clamp(mousePos - slider.AbsolutePosition.X, 0, slider.Size.X.Offset)
-    sliderButton.Position = UDim2.new(0, newPos, 0, 0)
+local codeInputBox = Instance.new("TextBox")
+codeInputBox.Parent = playerGui
+codeInputBox.Size = UDim2.new(0.3, 0, 0.1, 0)
+codeInputBox.Position = UDim2.new(0.35, 0, 0.5, 0)
+codeInputBox.PlaceholderText = "Enter code"
+codeInputBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+codeInputBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+codeInputBox.TextScaled = true
 
-    local fontSize = math.floor(10 + (newPos / slider.Size.X.Offset) * 30)
-    timeLabel.TextSize = fontSize
+-- Tombol untuk memverifikasi kode
+local verifyButton = Instance.new("TextButton")
+verifyButton.Parent = playerGui
+verifyButton.Size = UDim2.new(0.2, 0, 0.1, 0)
+verifyButton.Position = UDim2.new(0.4, 0, 0.6, 0)
+verifyButton.Text = "Verify Code"
+verifyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+verifyButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+verifyButton.TextScaled = true
+
+-- Fungsi untuk membuka UI setelah memasukkan kode yang benar
+verifyButton.MouseButton1Click:Connect(function()
+	if codeInputBox.Text == secretCode then
+		uiFrame.Visible = true -- Menampilkan UI
+		codeInputBox.Visible = false
+		verifyButton.Visible = false
+		unlockButton.Visible = false
+		print("UI unlocked!")
+	else
+		print("Wrong code!")
+		codeInputBox.Text = ""
+	end
 end)
 
--- Membuat tombol untuk mengganti warna latar belakang
-local colorButton = Instance.new("TextButton")
-colorButton.Parent = mainFrame
-colorButton.Size = UDim2.new(0, 200, 0, 40)
-colorButton.Position = UDim2.new(0.5, -100, 0, 120)
-colorButton.Text = "Ganti Warna Latar"
-colorButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-colorButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
-
-colorButton.MouseButton1Click:Connect(function()
-    local randomColor = Color3.fromRGB(math.random(0, 255), math.random(0, 255), math.random(0, 255))
-    mainFrame.BackgroundColor3 = randomColor
+-- Menyembunyikan tombol unlock jika kode dimasukkan
+unlockButton.MouseButton1Click:Connect(function()
+	codeInputBox.Visible = true
+	verifyButton.Visible = true
 end)
