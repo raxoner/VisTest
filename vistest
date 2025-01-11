@@ -1,32 +1,81 @@
-local UserInputService = game:GetService("UserInputService")
-local ui = game:GetService("GuiService"):Create("ScreenGui")
-local frame = Instance.new("Frame", ui)
-local label = Instance.new("TextLabel", frame)
+-- Layar Utama
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "Layar Utama"
+ScreenGui.Parent = game.StarterGui
 
--- Configuration
-local key1 = Enum.KeyCode.E  -- Key to open the UI
-local key2 = Enum.KeyCode.Q  -- Key to close the UI
-local uiVisible = false
+-- Frame Utama
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Size = UDim2.new(0, 300, 0, 200)
+MainFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundTransparency = 1
 
--- UI Properties
-frame.Size = UDim2.new(0.2, 0, 0.2, 0)
-frame.Position = UDim2.new(0.4, 0, 0.4, 0)
-frame.BackgroundColor3 = Color3.new(0.5, 0.5, 0.5)
-label.Text = "UI Example"
-label.FontSize = Enum.FontSize.Size14
-label.TextColor3 = Color3.new(0, 0, 0)
+-- Frame Kunci
+local LockFrame = Instance.new("Frame")
+LockFrame.Name = "LockFrame"
+LockFrame.Size = UDim2.new(0, 300, 0, 50)
+LockFrame.Position = UDim2.new(0.5, -150, 0.5, -50)
+LockFrame.BackgroundTransparency = 1
+LockFrame.Parent = MainFrame
 
--- Event Handlers
-UserInputService.InputBegan:Connect(function(input)
-    if input.KeyCode == key1 and not uiVisible then
-        ui.Enabled = true
-        uiVisible = true
+-- Label Kunci
+local LockLabel = Instance.new("TextLabel")
+LockLabel.Name = "LockLabel"
+LockLabel.Size = UDim2.new(0, 200, 0, 20)
+LockLabel.Text = "Masukkan Kunci:"
+LockLabel.Font = Enum.Font.SourceSansSemibold
+LockLabel.TextColor3 = Color3.new(1, 1, 1)
+LockLabel.BackgroundTransparency = 1
+LockLabel.Parent = LockFrame
+
+-- TextBox Kunci
+local LockTextBox = Instance.new("TextBox")
+LockTextBox.Name = "LockTextBox"
+LockTextBox.Size = UDim2.new(0, 200, 0, 30)
+LockTextBox.Font = Enum.Font.SourceSansSemibold
+LockTextBox.TextColor3 = Color3.new(1, 1, 1)
+LockTextBox.BackgroundTransparency = 0.5
+LockTextBox.Parent = LockFrame
+
+-- Tombol Buka
+local OpenButton = Instance.new("TextButton")
+OpenButton.Name = "OpenButton"
+OpenButton.Size = UDim2.new(0, 100, 0, 30)
+OpenButton.Text = "Buka"
+OpenButton.Font = Enum.Font.SourceSansSemibold
+OpenButton.TextColor3 = Color3.new(1, 1, 1)
+OpenButton.BackgroundTransparency = 0.5
+OpenButton.Parent = LockFrame
+
+-- Frame Isi
+local ContentFrame = Instance.new("Frame")
+ContentFrame.Name = "ContentFrame"
+ContentFrame.Size = UDim2.new(0, 300, 0, 150)
+ContentFrame.Position = UDim2.new(0.5, -150, 0.5, 50)
+ContentFrame.BackgroundTransparency = 1
+ContentFrame.Parent = MainFrame
+ContentFrame.Visible = false
+
+-- Label Isi
+local ContentLabel = Instance.new("TextLabel")
+ContentLabel.Name = "ContentLabel"
+ContentLabel.Size = UDim2.new(0, 200, 0, 20)
+ContentLabel.Text = "Selamat Datang!"
+ContentLabel.Font = Enum.Font.SourceSansSemibold
+ContentLabel.TextColor3 = Color3.new(1, 1, 1)
+ContentLabel.BackgroundTransparency = 1
+ContentLabel.Parent = ContentFrame
+
+-- Fungsi Buka
+local function openUI()
+    if LockTextBox.Text == "kunci123" then
+        LockFrame.Visible = false
+        ContentFrame.Visible = true
+    else
+        LockLabel.Text = "Kunci Salah!"
     end
-end)
+end
 
-UserInputService.InputBegan:Connect(function(input)
-    if input.KeyCode == key2 and uiVisible then
-        ui.Enabled = false
-        uiVisible = false
-    end
-end)
+-- Event Handler
+OpenButton.MouseButton1Click:Connect(openUI)
